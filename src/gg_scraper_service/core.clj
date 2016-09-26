@@ -7,10 +7,12 @@
 
 (defn grains-service [runtime-config]
   (-> (system/base-system (merge {:name "grains-service"} runtime-config))
-      (assoc :grains
-             (component/using (grains/new-grains) [:handler :app-status]))))
+      (assoc :grains (grains/new-grain-list))
+      (assoc :grain-service
+             (component/using (grains/new-grain-service) [:handler :app-status :grains]))))
 
 (defn -main
   "starts system"
   [& args]
-  (system/start (httpkit/add-server (grains-service {}) :grains)))
+  (system/start (httpkit/add-server (grains-service {}) :grain-service)))
+

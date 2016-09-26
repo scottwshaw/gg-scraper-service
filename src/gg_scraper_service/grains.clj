@@ -46,15 +46,25 @@
 (defn grainslist [grains]
   [:div [:ol (for [i grains] [:li i])]])
 
-(defrecord Grains [handler app-status]
+(defrecord GrainList []
+  c/Lifecycle
+  (start [self]
+    (assoc self :data (fetch-all-grains)))
+  (stop [self]
+    (assoc self :data nil)))
+
+(defn new-grain-list [] (map->GrainList {}))
+
+(defrecord GrainService [handler app-status grains]
   c/Lifecycle
   (start [self]
     (handlers/register-handler
      (:handler self)
      (compojure/routes (compojure/GET "/grains" [_]
-                                      (basic-template "grains" (grainslist (fetch-all-grains))))))f
+                                      (basic-template "grains" (grainslist (:data grains))))))
+    (println "routes added")
     self)
- (stop [self]
-   self))
+  (stop [self]
+    self))
 
-(defn new-grains [] (map->Grains {}))
+(defn new-grain-service [] (map->GrainService {}))
