@@ -3,7 +3,8 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[com.stuartsierra/component "0.3.1"]
+  :dependencies [[cheshire/cheshire "5.6.3"]
+                 [com.stuartsierra/component "0.3.1"]
                  [org.clojure/clojure "1.8.0"]
                  [de.otto/tesla-httpkit "0.1.5"]
                  [de.otto/tesla-microservice "0.3.33"]
