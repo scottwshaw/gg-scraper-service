@@ -1,5 +1,5 @@
 (ns gg-scraper-service.json-server
-  (:require     [cheshire.core :as ch]
+  (:require     [clojure.data.json :as json]
                 [compojure.core :as compojure]
                 [compojure.route :as route]
                 [com.stuartsierra.component :as c]
@@ -10,9 +10,12 @@
   (start [self]
     (handlers/register-handler
      (:handler self)
-     (compojure/routes (compojure/GET "/grains" [_]
-                                      {:http-equiv "Content-Type" :content "application/json" :charset "utf-8"}
-                                      (ch/generate-string (:data grains)))))
+     (compojure/routes
+      (compojure/GET "/grains" [_]
+                     {:status 200
+                      :headers {"Access-Control-Allow-Origin" "http://localhost:3000"
+                                "Content-Type" "application/json; charset utf-8"}
+                      :body (json/write-str grains)})))
     (println "routes added.  Grains are" grains)
     self)
   (stop [self]
