@@ -16,7 +16,7 @@
                       :headers {"Access-Control-Allow-Origin" "http://localhost:3000"
                                 "Content-Type" "application/json; charset utf-8"}
                       :body (json/write-str grains)})))
-    (println "routes added.  Grains are" grains)
+    (println "routes added")
     self)
   (stop [self]
     self))
